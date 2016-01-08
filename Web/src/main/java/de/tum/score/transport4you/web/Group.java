@@ -5,5 +5,6 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Group {
-  @Id public String group;
+	@Id
+	public String group;
 }
