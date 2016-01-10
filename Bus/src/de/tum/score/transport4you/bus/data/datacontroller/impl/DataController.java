@@ -23,152 +23,169 @@ import de.tum.score.transport4you.bus.data.datacontroller.error.DataControllerIn
 
 /**
  * The class beeing capable of handling data/persistent related issues
+ *
  * @author hoerning
  *
  */
-public class DataController implements ISettingsDataController{
-	
-	/* Store the information if this class was initialized */
-	private boolean initialized = false;
-	
-	/* The used configuration */
-	private PropertiesConfiguration propertiesConfiguration;
-	
-	/* The Key Configuration */
-	private KeyConfiguration keyConfiguration;
-	
-	/* Logging */
-	private Logger logger = Logger.getLogger("Data");
-	
+public class DataController implements ISettingsDataController {
+
 	private static DataController instance = null;
-	
+
 	/**
 	 * The method to return the singleton instance of the Data Controller
+	 *
 	 * @return
 	 */
-	public static DataController getInstance(){
-		if(instance==null) {
+	public static DataController getInstance() {
+		if (instance == null) {
 			instance = new DataController();
 		}
-		
+
 		return instance;
 	}
 
-	/**
-	 * This method needs to be called to initialize the Data Controller correctly.<br>Note that this method must only be called once.
-	 * @param configurationFile
-	 * @throws DataControllerInitializingException 
-	 */
-	public void init(File configurationFile) throws DataControllerInitializingException {
-		logger.debug("Initializing Data Controller");
-		
-		if(initialized) {
-			//Class was already initialized
-			logger.error("Controller was already initialized");
-			throw new DataControllerInitializingException("Controller was already initialized");
-		} else {
-			//Initialize
-			try {
-				propertiesConfiguration = new PropertiesConfiguration(configurationFile);
-			} catch (ConfigurationException e) {
-				logger.error("Error while loading the properties");
-				throw new DataControllerInitializingException(e.getMessage());
-			}		
-			logger.debug("Initializing Data Controller finished");
-			this.initialized = true;
-		}
+	/* Store the information if this class was initialized */
+	private boolean initialized = false;
+
+	/* The Key Configuration */
+	private KeyConfiguration keyConfiguration;
+
+	/* Logging */
+	private final Logger logger = Logger.getLogger("Data");
+
+	/* The used configuration */
+	private PropertiesConfiguration propertiesConfiguration;
+
+	@Override
+	public ApplicationConfiguration getApplicationConfiguration() {
+
+		this.logger.trace("Loading Application Configuration");
+		final ApplicationConfiguration appConf = new ApplicationConfiguration();
+		// TODO: This configuration entries should be changeable from the
+		// outside
+		appConf.setPostpayAccountRepresentation("POSTPAY");
+		appConf.setPrepayAccountRepresentation("PREPAY");
+		return appConf;
 	}
 
 	@Override
 	public BluetoothConfiguration getBluetoothConfiguration() {
 
-		//Create a new BluetoothConfiguration by reading out the parameters in the config file
-		logger.trace("Loading Bluetooth Configuration");
-		BluetoothConfiguration bluetoothConfiguration = new BluetoothConfiguration();
-		bluetoothConfiguration.setServerName(propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_SERVER));
-		bluetoothConfiguration.setServiceName(propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_SERVICE));
-		bluetoothConfiguration.setServiceUUID(propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_UUID));
-		
-		return bluetoothConfiguration;
-	}
+		// Create a new BluetoothConfiguration by reading out the parameters in
+		// the config file
+		this.logger.trace("Loading Bluetooth Configuration");
+		final BluetoothConfiguration bluetoothConfiguration = new BluetoothConfiguration();
+		bluetoothConfiguration
+				.setServerName(this.propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_SERVER));
+		bluetoothConfiguration.setServiceName(
+				this.propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_SERVICE));
+		bluetoothConfiguration
+				.setServiceUUID(this.propertiesConfiguration.getString(PropertiesConfigurationEntries.BLUETOOTH_UUID));
 
-	@Override
-	public SystemConfiguration getSystemConfiguration() {
-		
-		//Create a new SystemConfiguration by reading out the parameters in the config file
-		logger.trace("Loading System Configuration");
-		SystemConfiguration systemConfiguration = new SystemConfiguration();
-		systemConfiguration.setThreadPoolSize(propertiesConfiguration.getInt(PropertiesConfigurationEntries.THREAD_POOL_SIZE));
-		systemConfiguration.setDaemonThreadTimer(propertiesConfiguration.getInt(PropertiesConfigurationEntries.SYSTEM_DAEMON_TIMER));
-		
-		return systemConfiguration;
+		return bluetoothConfiguration;
 	}
 
 	@Override
 	public KeyConfiguration getKeyConfiguration() throws ConfigurationLoadingException {
 
-		
-		if(keyConfiguration==null) {
-			//Load values out of configuration
-			logger.trace("Loading Key Configuration");
-			keyConfiguration = new KeyConfiguration();
-			
+		if (this.keyConfiguration == null) {
+			// Load values out of configuration
+			this.logger.trace("Loading Key Configuration");
+			this.keyConfiguration = new KeyConfiguration();
+
 			FileReader fileReader;
 			try {
-				
-				//Load Key Agreement Private Key
-				fileReader = new FileReader(propertiesConfiguration.getString(PropertiesConfigurationEntries.SECURITY_KEYAGREEMENT_KEYPATH));
+
+				// Load Key Agreement Private Key
+				fileReader = new FileReader(this.propertiesConfiguration
+						.getString(PropertiesConfigurationEntries.SECURITY_KEYAGREEMENT_KEYPATH));
 				PEMReader pemReader = new PEMReader(fileReader);
 				KeyPair keyPair = (KeyPair) pemReader.readObject();
-				keyConfiguration.setKeyAgreementPrivateKey(keyPair.getPrivate());
+				this.logger.debug("Key Configuration =======>" + this.keyConfiguration);
+				this.logger.debug("Key Pair =======>" + keyPair);
+				this.keyConfiguration.setKeyAgreementPrivateKey(keyPair.getPrivate());
 				pemReader.close();
 				fileReader.close();
-				
-				//Load Blob Private Key
-				fileReader = new FileReader(propertiesConfiguration.getString(PropertiesConfigurationEntries.SECURITY_BLOB_KEYPATH_PRIVATE));
+
+				// Load Blob Private Key
+				fileReader = new FileReader(this.propertiesConfiguration
+						.getString(PropertiesConfigurationEntries.SECURITY_BLOB_KEYPATH_PRIVATE));
 				pemReader = new PEMReader(fileReader);
 				keyPair = (KeyPair) pemReader.readObject();
-				keyConfiguration.setBlobPrivateKey(keyPair.getPrivate());
+				this.keyConfiguration.setBlobPrivateKey(keyPair.getPrivate());
 				pemReader.close();
 				fileReader.close();
-				
-				//Load Blob Public Key
-				fileReader = new FileReader(propertiesConfiguration.getString(PropertiesConfigurationEntries.SECURITY_BLOB_KEYPATH_PUBLIC));
-		        pemReader = new PEMReader(fileReader);
-		        X509Certificate cert = (X509Certificate) pemReader.readObject();
-		        PublicKey publicKey = (PublicKey) cert.getPublicKey();
-		        keyConfiguration.setBlobPublicKey(publicKey);
-		    	pemReader.close();
+
+				// Load Blob Public Key
+				fileReader = new FileReader(this.propertiesConfiguration
+						.getString(PropertiesConfigurationEntries.SECURITY_BLOB_KEYPATH_PUBLIC));
+				pemReader = new PEMReader(fileReader);
+				final X509Certificate cert = (X509Certificate) pemReader.readObject();
+				final PublicKey publicKey = cert.getPublicKey();
+				this.keyConfiguration.setBlobPublicKey(publicKey);
+				pemReader.close();
 				fileReader.close();
-				
-			} catch (FileNotFoundException e) {
-				logger.error("Error loading the Key Configuration: "+e.getMessage());
-				keyConfiguration = null;
-				throw new ConfigurationLoadingException("Error loading the Key Configuration: "+e.getMessage());
-			} catch (IOException e) {
-				logger.error("Error loading the Key Configuration: "+e.getMessage());
-				keyConfiguration = null;
-				throw new ConfigurationLoadingException("Error loading the Key Configuration: "+e.getMessage());
-			} catch (Exception e) {
-				logger.error("Error loading the Key Configuration: "+e.getMessage());
-				throw new RuntimeException(e.getMessage());
+
+			} catch (final FileNotFoundException e) {
+				this.logger.error("Error loading the Key Configuration: " + e.getMessage());
+				this.keyConfiguration = null;
+				throw new ConfigurationLoadingException("Error loading the Key Configuration: " + e.getMessage());
+			} catch (final IOException e) {
+				this.logger.error("Error loading the Key Configuration: " + e.getMessage());
+				this.keyConfiguration = null;
+				throw new ConfigurationLoadingException("Error loading the Key Configuration: " + e.getMessage());
+			} catch (final Exception e) {
+				this.logger.error("Error loading the Key Configuration: " + e.getMessage());
+				e.printStackTrace();
 			}
 		} else {
-			logger.trace("Key Configuration already loaded");
+			this.logger.trace("Key Configuration already loaded");
 		}
-		
-		return keyConfiguration;
+
+		return this.keyConfiguration;
 	}
 
 	@Override
-	public ApplicationConfiguration getApplicationConfiguration() {
-		
-		logger.trace("Loading Application Configuration");
-		ApplicationConfiguration appConf = new ApplicationConfiguration();
-		//TODO: This configuration entries should be changeable from the outside
-		appConf.setPostpayAccountRepresentation("POSTPAY");
-		appConf.setPrepayAccountRepresentation("PREPAY");
-		return appConf;
+	public SystemConfiguration getSystemConfiguration() {
+
+		// Create a new SystemConfiguration by reading out the parameters in the
+		// config file
+		this.logger.trace("Loading System Configuration");
+		final SystemConfiguration systemConfiguration = new SystemConfiguration();
+		systemConfiguration.setThreadPoolSize(
+				this.propertiesConfiguration.getInt(PropertiesConfigurationEntries.THREAD_POOL_SIZE));
+		systemConfiguration.setDaemonThreadTimer(
+				this.propertiesConfiguration.getInt(PropertiesConfigurationEntries.SYSTEM_DAEMON_TIMER));
+
+		return systemConfiguration;
+	}
+
+	/**
+	 * This method needs to be called to initialize the Data Controller
+	 * correctly.<br>
+	 * Note that this method must only be called once.
+	 *
+	 * @param configurationFile
+	 * @throws DataControllerInitializingException
+	 */
+	public void init(final File configurationFile) throws DataControllerInitializingException {
+		this.logger.debug("Initializing Data Controller");
+
+		if (this.initialized) {
+			// Class was already initialized
+			this.logger.error("Controller was already initialized");
+			throw new DataControllerInitializingException("Controller was already initialized");
+		} else {
+			// Initialize
+			try {
+				this.propertiesConfiguration = new PropertiesConfiguration(configurationFile);
+			} catch (final ConfigurationException e) {
+				this.logger.error("Error while loading the properties");
+				throw new DataControllerInitializingException(e.getMessage());
+			}
+			this.logger.debug("Initializing Data Controller finished");
+			this.initialized = true;
+		}
 	}
 
 }

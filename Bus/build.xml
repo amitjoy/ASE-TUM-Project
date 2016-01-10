@@ -13,8 +13,7 @@
     <property name="dist" location="./dist"/>
     <property name="lib" location="./lib"/>
     <property name="src" location="./src"/>
-              	
-              	
+	
     <path id="src.classpath">
         <pathelement location="."/>
         <pathelement location="${lib}/bcprov-jdk16-145.jar"/>
@@ -39,7 +38,7 @@
     	<mkdir dir="${build}"/>
     	<mkdir dir="${dist}"/>
     </target>
-
+	
     <target name="clean">
     	<delete dir="${build}"/>
     	<delete dir="${dist}"/>
