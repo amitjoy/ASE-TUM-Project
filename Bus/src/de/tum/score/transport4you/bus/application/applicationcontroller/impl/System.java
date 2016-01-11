@@ -93,6 +93,7 @@ public class System implements ISystem {
 		logger.info("Data Controller Component initialized");
 
 		// Initialize the Connection Manager Component
+		// TODO To be removed
 		logger.info("Initialize Connection Manager Component");
 		ConnectionManagerInterfaceCoordinator.getStartup().init();
 		logger.info("Connection Manager Component initialized");
