@@ -1,7 +1,7 @@
 package in.tum.de.ase.init;
 
 import in.tum.de.ase.db.DBInitializer;
-import in.tum.de.ase.gui.TicketReaderClient;
+import in.tum.de.ase.gui.TicketReaderGUI;
 
 public final class Starter {
 
@@ -10,7 +10,7 @@ public final class Starter {
 	}
 
 	public static void main(final String[] args) {
-		TicketReaderClient.openReader();
+		TicketReaderGUI.openReader();
 	}
 
 }

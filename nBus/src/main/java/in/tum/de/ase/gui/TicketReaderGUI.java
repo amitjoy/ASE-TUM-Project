@@ -1,5 +1,8 @@
 package in.tum.de.ase.gui;
 
+import static in.tum.de.ase.constants.Constants.DIALOG_BOX_HEADER;
+import static in.tum.de.ase.constants.Constants.INVALID_TICKET_MSG;
+import static in.tum.de.ase.constants.Constants.VALIDATED_MSG;
 import static in.tum.de.ase.db.TicketsHandler.insertTicket;
 import static in.tum.de.ase.db.TicketsHandler.isValidatedTicket;
 import static in.tum.de.ase.util.TicketParser.parse;
@@ -31,6 +34,7 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
+import in.tum.de.ase.constants.Constants;
 import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 
@@ -40,15 +44,7 @@ import in.tum.de.ase.model.Eticket;
  * @author AMIT KUMAR MONDAL
  *
  */
-public final class TicketReaderClient extends JFrame implements Runnable, ThreadFactory {
-
-	private static final String INVALID_TICKET_MSG = "Invalid Ticket Provided";
-
-	private static final String ALREADY_VALIDATED_MSG = "Provided Ticket is already validated";
-
-	private static final String VALIDATED_MSG = "Ticket is Validated";
-
-	private static final String DIALOG_BOX_HEADER = "Ticket Validation";
+public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFactory {
 
 	private static final long serialVersionUID = 6441489157408381878L;
 
@@ -70,7 +66,7 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 
 	public static void openReader() {
 
-		new TicketReaderClient();
+		new TicketReaderGUI();
 	}
 
 	private final Executor executor = Executors.newCachedThreadPool();
@@ -79,12 +75,12 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 
 	private Webcam webcam = null;
 
-	private TicketReaderClient() {
+	private TicketReaderGUI() {
 		super();
 
 		this.setLayout(new FlowLayout());
 		this.setTitle("==== Scan Ticket =====");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		final Dimension size = WebcamResolution.QVGA.getSize();
 
@@ -133,7 +129,7 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 				try {
 					result = new MultiFormatReader().decode(bitmap);
 				} catch (final NotFoundException e) {
-					// fall thru, it means there is no QR code in image
+					// no QR code in image
 				}
 			}
 
@@ -144,16 +140,17 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 					if (eticket != null) {
 						if (!isValidatedTicket(eticket.getTicketId())) {
 							insertTicket(eticket);
-							showMessageDialog(null, VALIDATED_MSG, DIALOG_BOX_HEADER, INFORMATION_MESSAGE);
+							showMessageDialog(null, VALIDATED_MSG.getValue(), DIALOG_BOX_HEADER.getValue(),
+									INFORMATION_MESSAGE);
 
 						} else {
-							showMessageDialog(null, ALREADY_VALIDATED_MSG, DIALOG_BOX_HEADER,
-									ERROR_MESSAGE);
+							showMessageDialog(null, Constants.ALREADY_VALIDATED_MSG.getValue(),
+									DIALOG_BOX_HEADER.getValue(), ERROR_MESSAGE);
 						}
 
 					}
 				} catch (final NonParseableTicketException e) {
-					showMessageDialog(null, INVALID_TICKET_MSG, DIALOG_BOX_HEADER, ERROR_MESSAGE);
+					showMessageDialog(null, INVALID_TICKET_MSG.getValue(), DIALOG_BOX_HEADER.getValue(), ERROR_MESSAGE);
 				}
 			}
 
