@@ -23,6 +23,12 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
+/**
+ * Main App
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class TicketReaderClient extends JFrame implements Runnable, ThreadFactory {
 
 	private static final long serialVersionUID = 6441489157408381878L;

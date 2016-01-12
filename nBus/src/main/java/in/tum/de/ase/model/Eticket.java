@@ -5,6 +5,18 @@ import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
 
+/**
+ * Eticket Pojo
+ *
+ * Identifier: YYYYMMDD0X0000Z : YYYY => Year MM => Month DD => Date X => Ticket
+ * Type (1 = Single, 2 = Season) 0000Z => Ticket Unique ID (incremental)
+ *
+ * Example: 201601120100012 : Single Ticket with ID 12 valid on 12 January 2016
+ * 201602190200132 : Season Ticket with ID 132 valid until 19th February 2016
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class Eticket {
 
 	private final LocalDate date;
