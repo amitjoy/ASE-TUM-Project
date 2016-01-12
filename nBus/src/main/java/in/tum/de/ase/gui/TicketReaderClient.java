@@ -1,4 +1,11 @@
-package in.tum.de.ase.client;
+package in.tum.de.ase.gui;
+
+import static in.tum.de.ase.db.TicketsHandler.insertTicket;
+import static in.tum.de.ase.db.TicketsHandler.isValidatedTicket;
+import static in.tum.de.ase.util.TicketParser.parse;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,7 +17,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
@@ -23,8 +31,12 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
+import in.tum.de.ase.db.DBInitializer;
+import in.tum.de.ase.exception.NonParseableTicketException;
+import in.tum.de.ase.model.Eticket;
+
 /**
- * Main App
+ * Main Reader Application
  *
  * @author AMIT KUMAR MONDAL
  *
@@ -32,6 +44,10 @@ import com.google.zxing.common.HybridBinarizer;
 public final class TicketReaderClient extends JFrame implements Runnable, ThreadFactory {
 
 	private static final long serialVersionUID = 6441489157408381878L;
+
+	static {
+		DBInitializer.getInstance().setUp();
+	}
 
 	public static void centreWindow(final Window frame) {
 		final Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,6 +57,13 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 	}
 
 	public static void main(final String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		new TicketReaderClient();
 	}
 
@@ -70,7 +93,6 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 		this.pack();
 		this.setVisible(true);
 		centreWindow(this);
-
 		this.executor.execute(this);
 	}
 
@@ -110,7 +132,23 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 			}
 
 			if (result != null) {
-				JOptionPane.showMessageDialog(null, result.getText(), "Ticket Validation", JOptionPane.PLAIN_MESSAGE);
+				final String ticketQrCode = result.getText();
+				try {
+					final Eticket eticket = parse(ticketQrCode);
+					if (eticket != null) {
+						if (!isValidatedTicket(eticket.getTicketId())) {
+							insertTicket(eticket);
+							showMessageDialog(null, "Ticket is Validated", "Ticket Validation", INFORMATION_MESSAGE);
+
+						} else {
+							showMessageDialog(null, "Provided Ticket is already validated", "Ticket Validation",
+									ERROR_MESSAGE);
+						}
+
+					}
+				} catch (final NonParseableTicketException e) {
+					showMessageDialog(null, "Invalid Ticket Provided", "Ticket Validation", ERROR_MESSAGE);
+				}
 			}
 
 		} while (true);

@@ -1,6 +1,9 @@
 package in.tum.de.ase.model;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
@@ -11,7 +14,7 @@ import com.google.common.base.MoreObjects;
  * Identifier: YYYYMMDD0X0000Z : YYYY => Year MM => Month DD => Date X => Ticket
  * Type (1 = Single, 2 = Season) 0000Z => Ticket Unique ID (incremental)
  *
- * Example: 201601120100012 : Single Ticket with ID 12 valid on 12 January 2016
+ * Examples: 201601120100012 : Single Ticket with ID 12 valid on 12 January 2016
  * 201602190200132 : Season Ticket with ID 132 valid until 19th February 2016
  *
  * @author AMIT KUMAR MONDAL
@@ -19,11 +22,14 @@ import com.google.common.base.MoreObjects;
  */
 public final class Eticket {
 
-	private final LocalDate date;
-	private final String ticketId;
-	private final EticketType type;
+	private Date date;
+	private String ticketId;
+	private EticketType type;
 
-	public Eticket(final String ticketId, final EticketType type, final LocalDate date) {
+	public Eticket() {
+	}
+
+	public Eticket(final String ticketId, final EticketType type, final Date date) {
 		Objects.requireNonNull(ticketId);
 		Objects.requireNonNull(type);
 		Objects.requireNonNull(date);
@@ -32,8 +38,12 @@ public final class Eticket {
 		this.date = date;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return this.date;
+	}
+
+	public LocalDate getLocalDate() {
+		return Instant.ofEpochMilli(this.date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
 	public String getTicketId() {
