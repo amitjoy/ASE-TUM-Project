@@ -31,7 +31,6 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
-import in.tum.de.ase.db.DBInitializer;
 import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 
@@ -43,10 +42,23 @@ import in.tum.de.ase.model.Eticket;
  */
 public final class TicketReaderClient extends JFrame implements Runnable, ThreadFactory {
 
+	private static final String INVALID_TICKET_MSG = "Invalid Ticket Provided";
+
+	private static final String ALREADY_VALIDATED_MSG = "Provided Ticket is already validated";
+
+	private static final String VALIDATED_MSG = "Ticket is Validated";
+
+	private static final String DIALOG_BOX_HEADER = "Ticket Validation";
+
 	private static final long serialVersionUID = 6441489157408381878L;
 
 	static {
-		DBInitializer.getInstance().setUp();
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void centreWindow(final Window frame) {
@@ -56,14 +68,8 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 		frame.setLocation(x, y);
 	}
 
-	public static void main(final String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void openReader() {
+
 		new TicketReaderClient();
 	}
 
@@ -73,7 +79,7 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 
 	private Webcam webcam = null;
 
-	public TicketReaderClient() {
+	private TicketReaderClient() {
 		super();
 
 		this.setLayout(new FlowLayout());
@@ -138,16 +144,16 @@ public final class TicketReaderClient extends JFrame implements Runnable, Thread
 					if (eticket != null) {
 						if (!isValidatedTicket(eticket.getTicketId())) {
 							insertTicket(eticket);
-							showMessageDialog(null, "Ticket is Validated", "Ticket Validation", INFORMATION_MESSAGE);
+							showMessageDialog(null, VALIDATED_MSG, DIALOG_BOX_HEADER, INFORMATION_MESSAGE);
 
 						} else {
-							showMessageDialog(null, "Provided Ticket is already validated", "Ticket Validation",
+							showMessageDialog(null, ALREADY_VALIDATED_MSG, DIALOG_BOX_HEADER,
 									ERROR_MESSAGE);
 						}
 
 					}
 				} catch (final NonParseableTicketException e) {
-					showMessageDialog(null, "Invalid Ticket Provided", "Ticket Validation", ERROR_MESSAGE);
+					showMessageDialog(null, INVALID_TICKET_MSG, DIALOG_BOX_HEADER, ERROR_MESSAGE);
 				}
 			}
 
