@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package in.tum.de.ase.model;
+package in.tum.de.ase.configurables;
 
-public enum EticketType {
+import java.io.File;
 
-	INVALID, SEASON, SINGLE;
+import com.beust.jcommander.IStringConverter;
 
+public final class FileConverter implements IStringConverter<File> {
+	@Override
+	public File convert(final String value) {
+		return new File(value);
+	}
 }

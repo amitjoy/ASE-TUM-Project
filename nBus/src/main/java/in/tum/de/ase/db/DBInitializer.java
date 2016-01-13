@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2016 Amit Kumar Mondal
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package in.tum.de.ase.db;
 
 import org.jongo.Jongo;
@@ -10,15 +25,14 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.google.common.base.Preconditions;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 
+import in.tum.de.ase.configurables.DatabaseConfiguration;
+
 public final class DBInitializer {
 
-	private static final String DB_COLLECTION = "tickets";
-	private static final String DB_NAME = "BUS";
-	private static final int DB_PORT = 27017;
-	private static final String DB_SERVER = "127.0.0.1";
 	private static final DBInitializer INSTANCE = new DBInitializer();
 
 	public static DBInitializer getInstance() {
@@ -44,9 +58,11 @@ public final class DBInitializer {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void setUp() {
-		this.mongo = new Mongo(DB_SERVER, DB_PORT);
-		this.db = this.mongo.getDB(DB_NAME);
+	public void setUp(final DatabaseConfiguration configuration) {
+		Preconditions.checkNotNull(configuration);
+
+		this.mongo = new Mongo(configuration.getServer(), configuration.getPort());
+		this.db = this.mongo.getDB(configuration.getDb());
 		final Builder tmpMapper = new JacksonMapper.Builder();
 		for (final Module module : ObjectMapper.findModules()) {
 			tmpMapper.registerModule(module);
@@ -55,7 +71,7 @@ public final class DBInitializer {
 		tmpMapper.registerModule(new JSR310Module()).registerModule(new Jdk8Module());
 
 		this.jongo = new Jongo(this.db, tmpMapper.build());
-		this.collection = this.jongo.getCollection(DB_COLLECTION);
+		this.collection = this.jongo.getCollection(configuration.getCollection());
 	}
 
 }

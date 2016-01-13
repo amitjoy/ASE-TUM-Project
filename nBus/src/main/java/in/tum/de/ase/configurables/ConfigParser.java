@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package in.tum.de.ase.model;
+package in.tum.de.ase.configurables;
 
-public enum EticketType {
+import java.io.File;
 
-	INVALID, SEASON, SINGLE;
+public interface ConfigParser {
+
+	public static DatabaseConfiguration parse(final File file) {
+		return null;
+	}
 
 }

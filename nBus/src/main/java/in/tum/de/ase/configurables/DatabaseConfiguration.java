@@ -13,10 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package in.tum.de.ase.model;
+package in.tum.de.ase.configurables;
 
-public enum EticketType {
+public final class DatabaseConfiguration {
 
-	INVALID, SEASON, SINGLE;
+	private final String collection;
+	private final String db;
+	private final int port;
+	private final String server;
+
+	public DatabaseConfiguration(final String server, final int port, final String db, final String collection) {
+		super();
+		this.server = server;
+		this.port = port;
+		this.db = db;
+		this.collection = collection;
+	}
+
+	public String getCollection() {
+		return this.collection;
+	}
+
+	public String getDb() {
+		return this.db;
+	}
+
+	public int getPort() {
+		return this.port;
+	}
+
+	public String getServer() {
+		return this.server;
+	}
 
 }
