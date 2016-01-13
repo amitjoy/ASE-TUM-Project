@@ -16,11 +16,40 @@
 package in.tum.de.ase.configurables;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import in.tum.de.ase.exception.NonParseableFileException;
 
 public interface ConfigParser {
 
-	public static DatabaseConfiguration parse(final File file) {
-		return null;
+	public static DatabaseConfiguration parse(final File file) throws NonParseableFileException {
+		final Properties prop = new Properties();
+		InputStream input = null;
+		DatabaseConfiguration configuration = null;
+
+		try {
+
+			input = new FileInputStream(file);
+
+			prop.load(input);
+			configuration = new DatabaseConfiguration(prop.getProperty("server"),
+					Integer.valueOf(prop.getProperty("port")), prop.getProperty("db"), prop.getProperty("collection"));
+
+		} catch (final Exception ex) {
+			throw new NonParseableFileException(ex.getMessage());
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return configuration;
 	}
 
 }

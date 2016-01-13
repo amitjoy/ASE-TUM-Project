@@ -23,6 +23,7 @@ import com.beust.jcommander.Parameter;
 import in.tum.de.ase.configurables.ConfigParser;
 import in.tum.de.ase.configurables.FileConverter;
 import in.tum.de.ase.db.DBInitializer;
+import in.tum.de.ase.exception.NonParseableFileException;
 import in.tum.de.ase.gui.TicketReaderGUI;
 
 public final class Starter {
@@ -30,15 +31,19 @@ public final class Starter {
 	public static void main(final String... args) {
 		final Starter main = new Starter();
 		new JCommander(main, args);
-		main.initializeDatabase();
+		main.initializeDatabaseConfig();
 		TicketReaderGUI.openReader();
 	}
 
 	@Parameter(names = "-config", converter = FileConverter.class, required = true, description = "Database Configuration File")
 	private File file;
 
-	public void initializeDatabase() {
-		DBInitializer.getInstance().setUp(ConfigParser.parse(this.file));
+	public void initializeDatabaseConfig() {
+		try {
+			DBInitializer.getInstance().setUp(ConfigParser.parse(this.file));
+		} catch (final NonParseableFileException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
