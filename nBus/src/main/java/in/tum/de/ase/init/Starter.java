@@ -26,8 +26,21 @@ import in.tum.de.ase.db.DBInitializer;
 import in.tum.de.ase.exception.NonParseableFileException;
 import in.tum.de.ase.gui.TicketReaderGUI;
 
+/**
+ * System Starter Point of Initialization
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class Starter {
 
+	/**
+	 * Main Method to be triggered to start the application
+	 *
+	 * @param args
+	 *            the command line arguments needed (-config parameter is
+	 *            needed)
+	 */
 	public static void main(final String... args) {
 		final Starter main = new Starter();
 		new JCommander(main, args);
@@ -35,9 +48,15 @@ public final class Starter {
 		TicketReaderGUI.openReader();
 	}
 
+	/**
+	 * The File Object reference for the configuration file
+	 */
 	@Parameter(names = "-config", converter = FileConverter.class, required = true, description = "Database Configuration File")
 	private File file;
 
+	/**
+	 * Triggers Database Initialization
+	 */
 	public void initializeDatabaseConfig() {
 		try {
 			DBInitializer.getInstance().setUp(ConfigParser.parse(this.file));

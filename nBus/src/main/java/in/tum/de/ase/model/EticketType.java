@@ -15,8 +15,27 @@
  *******************************************************************************/
 package in.tum.de.ase.model;
 
+/**
+ * Ticket Type
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public enum EticketType {
 
-	INVALID, SEASON, SINGLE;
+	/**
+	 * Invalid Ticket
+	 */
+	INVALID,
+
+	/**
+	 * Season Ticket
+	 */
+	SEASON,
+
+	/**
+	 * Single Journey Ticket
+	 */
+	SINGLE;
 
 }

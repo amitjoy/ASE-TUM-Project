@@ -54,15 +54,19 @@ import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 
 /**
- * Main Reader Application
+ * Main Reader Application to scan ticket QR Code
  *
  * @author AMIT KUMAR MONDAL
  *
  */
 public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFactory {
 
+	/**
+	 * Serialisation UID
+	 */
 	private static final long serialVersionUID = 6441489157408381878L;
 
+	// Setting look and feel for the application
 	static {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -72,6 +76,9 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 		}
 	}
 
+	/**
+	 * Centers the provided window
+	 */
 	public static void centreWindow(final Window frame) {
 		final Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		final int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
@@ -79,17 +86,32 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 		frame.setLocation(x, y);
 	}
 
+	/**
+	 * Opens the QR Code Reader
+	 */
 	public static void openReader() {
 
 		new TicketReaderGUI();
 	}
 
+	/**
+	 * Thread Executor to be used for handling ticket reading
+	 */
 	private final Executor executor = Executors.newCachedThreadPool();
 
+	/**
+	 * WebCam Panel Reference
+	 */
 	private WebcamPanel panel = null;
 
+	/**
+	 * WebCam Reference
+	 */
 	private Webcam webcam = null;
 
+	/**
+	 * Constructor
+	 */
 	private TicketReaderGUI() {
 		super();
 
@@ -113,6 +135,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 		this.executor.execute(this);
 	}
 
+	/** {@inheritDoc}} */
 	@Override
 	public Thread newThread(final Runnable r) {
 		final Thread t = new Thread(r, "ticket-scanner-worker");
@@ -120,6 +143,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 		return t;
 	}
 
+	/** {@inheritDoc}} */
 	@Override
 	public void run() {
 		do {
@@ -153,6 +177,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 				try {
 					final Eticket eticket = parse(ticketQrCode);
 					if (eticket != null) {
+						// if ticket is not previously validated
 						if (!isValidatedTicket(eticket.getTicketId())) {
 							insertTicket(eticket);
 							showMessageDialog(null, VALIDATED_MSG.getValue(), DIALOG_BOX_HEADER.getValue(),

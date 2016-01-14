@@ -25,7 +25,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
 /**
- * Eticket Pojo
+ * Bus Ticket POJO. This class is neither thread-safe or immutable
  *
  * Identifier: YYYYMMDD0X0000Z : YYYY => Year MM => Month DD => Date X => Ticket
  * Type (1 = Single, 2 = Season) 0000Z => Ticket Unique ID (incremental)
@@ -38,13 +38,34 @@ import com.google.common.base.Preconditions;
  */
 public final class Eticket {
 
+	/**
+	 * The Ticket Date Object Reference
+	 */
 	private Date date;
+
+	/**
+	 * The Ticket Unique ID
+	 */
 	private String ticketId;
+
+	/**
+	 * Ticket Type
+	 */
 	private EticketType type;
 
+	/**
+	 * Default Constructor needed for Jongo Operations. Not to be used outside
+	 * Jongo.
+	 */
 	public Eticket() {
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @throws NullPointerException
+	 *             when arguments are null
+	 */
 	public Eticket(final String ticketId, final EticketType type, final Date date) {
 
 		Preconditions.checkNotNull(ticketId);
@@ -56,27 +77,42 @@ public final class Eticket {
 		this.date = date;
 	}
 
+	/**
+	 * Getter for Actual {@link Date} object reference
+	 */
 	public Date getDate() {
 		return this.date;
 	}
 
+	/**
+	 * Returns the wrapped {@link LocalDate} object reference for the actual
+	 * {@link Date} object reference
+	 */
 	public LocalDate getLocalDate() {
 		return Instant.ofEpochMilli(this.date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
+	/**
+	 * Getter for unique ticket id
+	 */
 	public String getTicketId() {
 		return this.ticketId;
 	}
 
+	/**
+	 * Getter for ticket type
+	 */
 	public EticketType getType() {
 		return this.type;
 	}
 
+	/** {@inheritDoc}} */
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.date, this.ticketId, this.type);
 	}
 
+	/** {@inheritDoc}} */
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("Ticket ID", this.ticketId)

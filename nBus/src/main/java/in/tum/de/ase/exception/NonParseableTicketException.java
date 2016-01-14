@@ -15,10 +15,22 @@
  *******************************************************************************/
 package in.tum.de.ase.exception;
 
+/**
+ * Exception class to be thrown when unable to parse provided ticket
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class NonParseableTicketException extends Exception {
 
+	/**
+	 * Serialisation UID
+	 */
 	private static final long serialVersionUID = -5991918944521621013L;
 
+	/**
+	 * Constructor
+	 */
 	public NonParseableTicketException(final String message) {
 		super(message);
 	}

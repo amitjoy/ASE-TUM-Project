@@ -31,38 +31,83 @@ import com.mongodb.Mongo;
 
 import in.tum.de.ase.configurables.DatabaseConfiguration;
 
+/**
+ * Initializes the provided MongoDB Configuration for Bus System
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class DBInitializer {
 
+	/**
+	 * Singleton Instance
+	 */
 	private static final DBInitializer INSTANCE = new DBInitializer();
 
+	/**
+	 * Returns the Singleton Instance
+	 */
 	public static DBInitializer getInstance() {
 		return INSTANCE;
 	}
 
+	/**
+	 * The MongoDB Collection Object Reference
+	 */
 	private MongoCollection collection;
+
+	/**
+	 * The MongoDB Database Object Reference
+	 */
 	private DB db;
+
+	/**
+	 * Jongo Reference
+	 */
 	private Jongo jongo;
 
+	/**
+	 * MongoDB Object Reference
+	 */
 	private Mongo mongo;
 
+	/**
+	 * Private Constructor
+	 */
 	private DBInitializer() {
 		// Singleton
 	}
 
+	/**
+	 * Getter for MongoDB Collection
+	 */
 	public MongoCollection getCollection() {
 		return this.collection;
 	}
 
+	/**
+	 * Getter for Jongo
+	 */
 	public Jongo getJongo() {
 		return this.jongo;
 	}
 
+	/**
+	 * Initializes the Database Environment with the provided
+	 * {@link DatabaseConfiguration}
+	 *
+	 * @param configuration
+	 *            the actual database configuration to be used for
+	 *            initialization
+	 */
 	@SuppressWarnings("deprecation")
 	public void setUp(final DatabaseConfiguration configuration) {
 		Preconditions.checkNotNull(configuration);
 
 		this.mongo = new Mongo(configuration.getServer(), configuration.getPort());
 		this.db = this.mongo.getDB(configuration.getDb());
+
+		// Registering JDK8 Module for parsing JDK8 classes
 		final Builder tmpMapper = new JacksonMapper.Builder();
 		for (final Module module : ObjectMapper.findModules()) {
 			tmpMapper.registerModule(module);

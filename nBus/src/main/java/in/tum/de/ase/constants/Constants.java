@@ -15,17 +15,49 @@
  *******************************************************************************/
 package in.tum.de.ase.constants;
 
+/**
+ * All Reader Related Constants
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public enum Constants {
 
-	ALREADY_VALIDATED_MSG("Provided Ticket is already validated"), DIALOG_BOX_HEADER(
-			"Ticket Validation"), INVALID_TICKET_MSG("Invalid Ticket Provided"), VALIDATED_MSG("Ticket is Validated");
+	/**
+	 * Already Validated Ticket Message
+	 */
+	ALREADY_VALIDATED_MSG("Provided Ticket is already validated"),
 
+	/**
+	 * Dialog Box Header Message
+	 */
+	DIALOG_BOX_HEADER("Ticket Validation"),
+
+	/**
+	 * Invalid Ticket Provided Message
+	 */
+	INVALID_TICKET_MSG("Invalid Ticket Provided"),
+
+	/**
+	 * Ticket Validated Message
+	 */
+	VALIDATED_MSG("Ticket is Validated");
+
+	/**
+	 * The actual message content
+	 */
 	private final String msg;
 
+	/**
+	 * Constructor
+	 */
 	Constants(final String msg) {
 		this.msg = msg;
 	}
 
+	/**
+	 * Getter for actual message content
+	 */
 	public String getValue() {
 		return this.msg;
 	}

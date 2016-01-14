@@ -17,12 +17,32 @@ package in.tum.de.ase.db;
 
 import in.tum.de.ase.model.Eticket;
 
+/**
+ * Utility Class of handling tickets for Database related operations
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public interface TicketsHandler {
 
+	/**
+	 * Inserts the provided ticket to the database
+	 *
+	 * @param eticket
+	 *            provided ticket
+	 */
 	public static void insertTicket(final Eticket eticket) {
 		DBInitializer.getInstance().getCollection().save(eticket);
 	}
 
+	/**
+	 * Checks for already validated ticket in the database
+	 *
+	 * @param ticketId
+	 *            the ticket id to be checked
+	 * @return true if already found in the database as validated, otherwise
+	 *         false
+	 */
 	public static boolean isValidatedTicket(final String ticketId) {
 		final Eticket eticket = DBInitializer.getInstance().getCollection().findOne("{ticketId:'" + ticketId + "'}")
 				.as(Eticket.class);

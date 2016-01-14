@@ -15,13 +15,38 @@
  *******************************************************************************/
 package in.tum.de.ase.configurables;
 
+/**
+ * Database Related Configuration POJO, needed to wrap provided configuration.
+ * This class is thread safe and immutable
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class DatabaseConfiguration {
 
+	/**
+	 * The MongoDB Collection Name
+	 */
 	private final String collection;
+
+	/**
+	 * The MongoDB Database Name
+	 */
 	private final String db;
+
+	/**
+	 * MongoDB Port Number
+	 */
 	private final int port;
+
+	/**
+	 * MongoDB Server Address
+	 */
 	private final String server;
 
+	/**
+	 * Constructor
+	 */
 	public DatabaseConfiguration(final String server, final int port, final String db, final String collection) {
 		super();
 		this.server = server;
@@ -30,18 +55,30 @@ public final class DatabaseConfiguration {
 		this.collection = collection;
 	}
 
+	/**
+	 * Getter for DB Collection Name
+	 */
 	public String getCollection() {
 		return this.collection;
 	}
 
+	/**
+	 * Getter for DB Name
+	 */
 	public String getDb() {
 		return this.db;
 	}
 
+	/**
+	 * Getter for DB Port Number
+	 */
 	public int getPort() {
 		return this.port;
 	}
 
+	/**
+	 * Getter for DB Server Address
+	 */
 	public String getServer() {
 		return this.server;
 	}

@@ -19,7 +19,15 @@ import java.io.File;
 
 import com.beust.jcommander.IStringConverter;
 
+/**
+ * Converts command line configuration file to actual {@link File} Object
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class FileConverter implements IStringConverter<File> {
+
+	/** {@inheritDoc}} */
 	@Override
 	public File convert(final String value) {
 		return new File(value);

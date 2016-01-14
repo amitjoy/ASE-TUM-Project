@@ -15,10 +15,23 @@
  *******************************************************************************/
 package in.tum.de.ase.exception;
 
+/**
+ * Exception class to be thrown when unable to parse provided database
+ * configuration
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public final class NonParseableFileException extends Exception {
 
+	/**
+	 * Serialisation UID
+	 */
 	private static final long serialVersionUID = -5991918944521621013L;
 
+	/**
+	 * Constructor
+	 */
 	public NonParseableFileException(final String message) {
 		super(message);
 	}

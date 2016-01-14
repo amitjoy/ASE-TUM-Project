@@ -23,8 +23,24 @@ import java.util.Properties;
 
 import in.tum.de.ase.exception.NonParseableFileException;
 
+/**
+ * Responsible to parse provided configuration as properties file
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public interface ConfigParser {
 
+	/**
+	 * Parses the Provided Properties Configuration File
+	 *
+	 * @param file
+	 *            the provided configuration file
+	 * @return {@link DatabaseConfiguration} object wrapper
+	 * @throws NonParseableFileException
+	 *             if parser throws any exception, it is wrapped in
+	 *             {@link NonParseableFileException}
+	 */
 	public static DatabaseConfiguration parse(final File file) throws NonParseableFileException {
 		final Properties prop = new Properties();
 		InputStream input = null;

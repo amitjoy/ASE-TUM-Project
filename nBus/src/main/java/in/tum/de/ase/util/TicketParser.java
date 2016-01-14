@@ -28,17 +28,44 @@ import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.model.EticketType;
 
+/**
+ * Ticket Parsing Related Utility class
+ *
+ * @author AMIT KUMAR MONDAL
+ *
+ */
 public interface TicketParser {
 
+	/**
+	 * Checks for validity of the provided season ticket
+	 *
+	 * @param eticket
+	 *            provided season ticket
+	 * @return true if valid otherwise false
+	 */
 	public static boolean isValidSeasonTicket(final Eticket eticket) {
 		final LocalDate today = LocalDate.now();
 		return today.isBefore(eticket.getLocalDate()) || today.isEqual(eticket.getLocalDate());
 	}
 
+	/**
+	 * Checks for validity of the provided single journey ticket
+	 *
+	 * @param eticket
+	 *            provided single ticket
+	 * @return true if valid otherwise false
+	 */
 	public static boolean isValidSingleTicket(final Eticket eticket) {
 		return LocalDate.now().isEqual(eticket.getLocalDate());
 	}
 
+	/**
+	 * Checks for validity of the provided ticket
+	 *
+	 * @param eticket
+	 *            provided ticket
+	 * @return true if valid otherwise false
+	 */
 	public static boolean isValidTicket(final Eticket eticket) {
 		if (eticket.getType() == SINGLE) {
 			return isValidSingleTicket(eticket);
@@ -50,6 +77,15 @@ public interface TicketParser {
 		return false;
 	}
 
+	/**
+	 * Parse the ticket after QR Code decoding
+	 *
+	 * @param value
+	 *            the actual decoded value by the QR Code Reader
+	 * @return the wrapped {@link Eticket}
+	 * @throws NonParseableTicketException
+	 *             if unable to parse the content
+	 */
 	public static Eticket parse(final String value) throws NonParseableTicketException {
 		StringBuilder builder;
 		LocalDate date;
