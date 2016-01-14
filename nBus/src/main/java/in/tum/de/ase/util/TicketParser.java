@@ -44,8 +44,12 @@ public interface TicketParser {
 	 * @param eticket
 	 *            provided season ticket
 	 * @return true if valid otherwise false
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static boolean isValidSeasonTicket(final Eticket eticket) {
+		Preconditions.checkNotNull(eticket);
+
 		final LocalDate today = LocalDate.now();
 		return today.isBefore(eticket.getLocalDate()) || today.isEqual(eticket.getLocalDate());
 	}
@@ -56,8 +60,11 @@ public interface TicketParser {
 	 * @param eticket
 	 *            provided single ticket
 	 * @return true if valid otherwise false
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static boolean isValidSingleTicket(final Eticket eticket) {
+		Preconditions.checkNotNull(eticket);
 		return LocalDate.now().isEqual(eticket.getLocalDate());
 	}
 

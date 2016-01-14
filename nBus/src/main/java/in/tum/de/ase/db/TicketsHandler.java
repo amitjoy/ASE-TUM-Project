@@ -15,6 +15,8 @@
  *******************************************************************************/
 package in.tum.de.ase.db;
 
+import com.google.common.base.Preconditions;
+
 import in.tum.de.ase.model.Eticket;
 
 /**
@@ -30,8 +32,11 @@ public interface TicketsHandler {
 	 *
 	 * @param eticket
 	 *            provided ticket
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static void insertTicket(final Eticket eticket) {
+		Preconditions.checkNotNull(eticket);
 		EnvironmentInitializer.getInstance().getCollection().save(eticket);
 	}
 
@@ -42,10 +47,13 @@ public interface TicketsHandler {
 	 *            the ticket id to be checked
 	 * @return true if already found in the database as validated, otherwise
 	 *         false
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static boolean isValidatedTicket(final String ticketId) {
-		final Eticket eticket = EnvironmentInitializer.getInstance().getCollection().findOne("{ticketId:'" + ticketId + "'}")
-				.as(Eticket.class);
+		Preconditions.checkNotNull(ticketId);
+		final Eticket eticket = EnvironmentInitializer.getInstance().getCollection()
+				.findOne("{ticketId:'" + ticketId + "'}").as(Eticket.class);
 		if (eticket != null) {
 			return ticketId.equals(eticket.getTicketId());
 		}

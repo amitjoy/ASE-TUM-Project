@@ -24,7 +24,7 @@ package in.tum.de.ase.observers.api;
 public interface IObserver {
 
 	/**
-	 * Publishes the value
+	 * Triggers the action on the value
 	 */
-	public void publish(final Object value);
+	public void trigger(final Object value);
 }

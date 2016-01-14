@@ -78,7 +78,7 @@ public final class Eticket {
 	}
 
 	/**
-	 * Getter for Actual {@link Date} object reference
+	 * Getter for actual {@link Date} object reference
 	 */
 	public Date getDate() {
 		return this.date;

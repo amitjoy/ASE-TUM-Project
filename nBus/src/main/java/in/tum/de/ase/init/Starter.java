@@ -25,6 +25,9 @@ import in.tum.de.ase.configurables.FileConverter;
 import in.tum.de.ase.db.EnvironmentInitializer;
 import in.tum.de.ase.exception.NonParseableFileException;
 import in.tum.de.ase.gui.TicketReaderGUI;
+import in.tum.de.ase.observer.controller.Controller;
+import in.tum.de.ase.observers.ParseCloudPublisher;
+import in.tum.de.ase.observers.ParseCloudSubscriber;
 
 /**
  * System Starter Point of Initialization
@@ -45,6 +48,7 @@ public final class Starter {
 		final Starter main = new Starter();
 		new JCommander(main, args);
 		main.initializeConfiguration();
+		main.registerListeners();
 		TicketReaderGUI.openReader();
 	}
 
@@ -57,12 +61,20 @@ public final class Starter {
 	/**
 	 * Triggers Environment Initialization
 	 */
-	public void initializeConfiguration() {
+	private void initializeConfiguration() {
 		try {
 			EnvironmentInitializer.getInstance().setUp(ConfigParser.parse(this.file));
 		} catch (final NonParseableFileException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Registers the available listeners
+	 */
+	private void registerListeners() {
+		Controller.INSTANCE.addObserver(new ParseCloudPublisher());
+		Controller.INSTANCE.addObserver(new ParseCloudSubscriber());
 	}
 
 }

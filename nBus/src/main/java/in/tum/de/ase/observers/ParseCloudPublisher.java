@@ -13,51 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package in.tum.de.ase.observer.controller;
+package in.tum.de.ase.observers;
 
-import java.util.List;
+import org.parse4j.ParseException;
+import org.parse4j.ParseObject;
 
-import com.google.common.collect.Lists;
+import com.google.common.base.Preconditions;
 
+import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.observers.api.IObserver;
 
 /**
- * Registers all the observers to trigger asynchronous operations
+ * Uploads data to Parse Cloud
  *
  * @author AMIT KUMAR MONDAL
  *
  */
-public final class Controller {
+public final class ParseCloudPublisher implements IObserver {
 
 	/**
-	 * Singleton Instance
+	 * Publishes provided ticket to the Parse Cloud
 	 */
-	public static final Controller INSTANCE = new Controller();
+	@Override
+	public void trigger(final Object value) {
+		Preconditions.checkNotNull(value);
 
-	/**
-	 * Lists of all observers
-	 */
-	private final List<IObserver> observers;
-
-	/**
-	 * Constructor
-	 */
-	private Controller() {
-		this.observers = Lists.newCopyOnWriteArrayList();
-	}
-
-	/**
-	 * Registers the provided observer
-	 */
-	public void addObserver(final IObserver observer) {
-		this.observers.add(observer);
-	}
-
-	/**
-	 * Notifies all the registered observers
-	 */
-	public void notifyObservers(final Object value) {
-		this.observers.stream().forEach(observer -> observer.trigger(value));
+		Eticket eticket = null;
+		if (value instanceof Eticket) {
+			eticket = (Eticket) value;
+		}
+		if (eticket != null) {
+			try {
+				final ParseObject eticketObj = new ParseObject("Ticket");
+				eticketObj.put("id", eticket.getTicketId());
+				eticketObj.put("date", eticket.getDate());
+				eticketObj.put("type", eticket.getType().name());
+				eticketObj.save();
+			} catch (final ParseException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

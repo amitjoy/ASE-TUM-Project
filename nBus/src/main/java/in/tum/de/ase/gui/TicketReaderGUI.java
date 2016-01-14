@@ -54,7 +54,6 @@ import in.tum.de.ase.constants.Constants;
 import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.observer.controller.Controller;
-import in.tum.de.ase.observers.ParseObserver;
 
 /**
  * Main Reader Application to scan ticket QR Code
@@ -132,9 +131,6 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 
 		this.add(this.panel);
 
-		// Registering Parse Cloud Observer
-		Controller.INSTANCE.addObserver(new ParseObserver());
-
 		this.pack();
 		this.setVisible(true);
 		centreWindow(this);
@@ -185,13 +181,15 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 					if ((eticket != null) && isValidTicket(eticket)) {
 						// if ticket is not previously validated
 						if (!isValidatedTicket(eticket.getTicketId())) {
+
+							// Inserts the ticket to local database
 							insertTicket(eticket);
+
+							// Notify all the registered observers
+							Controller.INSTANCE.notifyObservers(eticket);
+
 							showMessageDialog(null, VALIDATED_MSG.getValue(), DIALOG_BOX_HEADER.getValue(),
 									INFORMATION_MESSAGE);
-
-							// Notify all the observers
-							Controller.INSTANCE.getObservers().stream().forEach(observer -> observer.publish(eticket));
-
 						} else {
 							showMessageDialog(null, Constants.ALREADY_VALIDATED_MSG.getValue(),
 									DIALOG_BOX_HEADER.getValue(), ERROR_MESSAGE);

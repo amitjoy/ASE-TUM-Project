@@ -15,36 +15,44 @@
  *******************************************************************************/
 package in.tum.de.ase.observers;
 
-import org.parse4j.ParseException;
 import org.parse4j.ParseObject;
+import org.parse4j.ParseQuery;
+
+import com.google.common.base.Preconditions;
 
 import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.observers.api.IObserver;
 
 /**
- * Uploads data to Parse Cloud
+ * Subscribes data from Parse Cloud
  *
  * @author AMIT KUMAR MONDAL
  *
  */
-public final class ParseObserver implements IObserver {
+public final class ParseCloudSubscriber implements IObserver {
 
-	/** {@inheritDoc}} */
+	/**
+	 * Checks for the provided ticket in Parse Cloud. Prints to the console if
+	 * found.
+	 */
 	@Override
-	public void publish(final Object value) {
+	public void trigger(final Object value) {
+		Preconditions.checkNotNull(value);
+
 		Eticket eticket = null;
+
 		if (value instanceof Eticket) {
 			eticket = (Eticket) value;
 		}
 
-		try {
-			final ParseObject eticketObj = new ParseObject("ETICKET");
-			eticketObj.put("Id", eticket.getTicketId());
-			eticketObj.put("date", eticket.getDate());
-			eticketObj.put("type", eticket.getType().name());
-			eticketObj.save();
-		} catch (final ParseException e) {
-			e.printStackTrace();
+		if (eticket != null) {
+			try {
+				final ParseQuery<ParseObject> query = ParseQuery.getQuery("Ticket").whereGreaterThanOrEqualTo("id",
+						eticket.getTicketId());
+				query.find().stream().forEach(object -> System.out.println(object.getString("id")));
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
