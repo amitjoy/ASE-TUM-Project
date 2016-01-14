@@ -20,6 +20,7 @@ import static in.tum.de.ase.constants.Constants.INVALID_TICKET_MSG;
 import static in.tum.de.ase.constants.Constants.VALIDATED_MSG;
 import static in.tum.de.ase.db.TicketsHandler.insertTicket;
 import static in.tum.de.ase.db.TicketsHandler.isValidatedTicket;
+import static in.tum.de.ase.util.TicketParser.isValidTicket;
 import static in.tum.de.ase.util.TicketParser.parse;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -181,7 +182,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 				final String ticketQrCode = result.getText();
 				try {
 					final Eticket eticket = parse(ticketQrCode);
-					if (eticket != null) {
+					if ((eticket != null) && isValidTicket(eticket)) {
 						// if ticket is not previously validated
 						if (!isValidatedTicket(eticket.getTicketId())) {
 							insertTicket(eticket);

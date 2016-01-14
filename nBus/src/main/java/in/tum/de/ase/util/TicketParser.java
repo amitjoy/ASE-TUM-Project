@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import com.google.common.base.Preconditions;
+
 import in.tum.de.ase.exception.NonParseableTicketException;
 import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.model.EticketType;
@@ -65,8 +67,12 @@ public interface TicketParser {
 	 * @param eticket
 	 *            provided ticket
 	 * @return true if valid otherwise false
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static boolean isValidTicket(final Eticket eticket) {
+		Preconditions.checkNotNull(eticket);
+
 		if (eticket.getType() == SINGLE) {
 			return isValidSingleTicket(eticket);
 		}
@@ -85,8 +91,12 @@ public interface TicketParser {
 	 * @return the wrapped {@link Eticket}
 	 * @throws NonParseableTicketException
 	 *             if unable to parse the content
+	 * @throws NullPointerException
+	 *             if argument is null
 	 */
 	public static Eticket parse(final String value) throws NonParseableTicketException {
+		Preconditions.checkNotNull(value);
+
 		StringBuilder builder;
 		LocalDate date;
 		EticketType type;
