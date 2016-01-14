@@ -197,6 +197,9 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 									DIALOG_BOX_HEADER.getValue(), ERROR_MESSAGE);
 						}
 
+					} else {
+						showMessageDialog(null, INVALID_TICKET_MSG.getValue(), DIALOG_BOX_HEADER.getValue(),
+								INFORMATION_MESSAGE);
 					}
 				} catch (final NonParseableTicketException e) {
 					showMessageDialog(null, INVALID_TICKET_MSG.getValue(), DIALOG_BOX_HEADER.getValue(), ERROR_MESSAGE);
