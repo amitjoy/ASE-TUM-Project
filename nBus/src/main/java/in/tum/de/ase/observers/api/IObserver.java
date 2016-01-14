@@ -26,5 +26,5 @@ public interface IObserver {
 	/**
 	 * Publishes the value
 	 */
-	public void publish(String value);
+	public void publish(final Object value);
 }

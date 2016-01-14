@@ -189,8 +189,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 									INFORMATION_MESSAGE);
 
 							// Notify all the observers
-							Controller.INSTANCE.getObservers().stream()
-									.forEach(observer -> observer.publish(eticket.getTicketId()));
+							Controller.INSTANCE.getObservers().stream().forEach(observer -> observer.publish(eticket));
 
 						} else {
 							showMessageDialog(null, Constants.ALREADY_VALIDATED_MSG.getValue(),

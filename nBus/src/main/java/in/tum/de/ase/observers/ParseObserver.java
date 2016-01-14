@@ -15,6 +15,10 @@
  *******************************************************************************/
 package in.tum.de.ase.observers;
 
+import org.parse4j.ParseException;
+import org.parse4j.ParseObject;
+
+import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.observers.api.IObserver;
 
 /**
@@ -27,9 +31,21 @@ public final class ParseObserver implements IObserver {
 
 	/** {@inheritDoc}} */
 	@Override
-	public void publish(final String value) {
-		// TODO Auto-generated method stub
+	public void publish(final Object value) {
+		Eticket eticket = null;
+		if (value instanceof Eticket) {
+			eticket = (Eticket) value;
+		}
 
+		try {
+			final ParseObject eticketObj = new ParseObject("ETICKET");
+			eticketObj.put("Id", eticket.getTicketId());
+			eticketObj.put("date", eticket.getDate());
+			eticketObj.put("type", eticket.getType().name());
+			eticketObj.save();
+		} catch (final ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
