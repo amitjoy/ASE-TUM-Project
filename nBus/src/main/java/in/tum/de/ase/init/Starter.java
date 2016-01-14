@@ -22,7 +22,7 @@ import com.beust.jcommander.Parameter;
 
 import in.tum.de.ase.configurables.ConfigParser;
 import in.tum.de.ase.configurables.FileConverter;
-import in.tum.de.ase.db.DBInitializer;
+import in.tum.de.ase.db.EnvironmentInitializer;
 import in.tum.de.ase.exception.NonParseableFileException;
 import in.tum.de.ase.gui.TicketReaderGUI;
 
@@ -44,22 +44,22 @@ public final class Starter {
 	public static void main(final String... args) {
 		final Starter main = new Starter();
 		new JCommander(main, args);
-		main.initializeDatabaseConfig();
+		main.initializeConfiguration();
 		TicketReaderGUI.openReader();
 	}
 
 	/**
 	 * The File Object reference for the configuration file
 	 */
-	@Parameter(names = "-config", converter = FileConverter.class, required = true, description = "Database Configuration File")
+	@Parameter(names = "-config", converter = FileConverter.class, required = true, description = "Environment Configuration File")
 	private File file;
 
 	/**
-	 * Triggers Database Initialization
+	 * Triggers Environment Initialization
 	 */
-	public void initializeDatabaseConfig() {
+	public void initializeConfiguration() {
 		try {
-			DBInitializer.getInstance().setUp(ConfigParser.parse(this.file));
+			EnvironmentInitializer.getInstance().setUp(ConfigParser.parse(this.file));
 		} catch (final NonParseableFileException e) {
 			e.printStackTrace();
 		}

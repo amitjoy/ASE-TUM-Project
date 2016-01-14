@@ -19,6 +19,7 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.marshall.jackson.JacksonMapper;
 import org.jongo.marshall.jackson.JacksonMapper.Builder;
+import org.parse4j.Parse;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.Module;
@@ -29,25 +30,25 @@ import com.google.common.base.Preconditions;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 
-import in.tum.de.ase.configurables.DatabaseConfiguration;
+import in.tum.de.ase.configurables.Configuration;
 
 /**
- * Initializes the provided MongoDB Configuration for Bus System
+ * Initializes the provided Command line Configuration for Bus System
  *
  * @author AMIT KUMAR MONDAL
  *
  */
-public final class DBInitializer {
+public final class EnvironmentInitializer {
 
 	/**
 	 * Singleton Instance
 	 */
-	private static final DBInitializer INSTANCE = new DBInitializer();
+	private static final EnvironmentInitializer INSTANCE = new EnvironmentInitializer();
 
 	/**
 	 * Returns the Singleton Instance
 	 */
-	public static DBInitializer getInstance() {
+	public static EnvironmentInitializer getInstance() {
 		return INSTANCE;
 	}
 
@@ -74,7 +75,7 @@ public final class DBInitializer {
 	/**
 	 * Private Constructor
 	 */
-	private DBInitializer() {
+	private EnvironmentInitializer() {
 		// Singleton
 	}
 
@@ -93,30 +94,36 @@ public final class DBInitializer {
 	}
 
 	/**
-	 * Initializes the Database Environment with the provided
-	 * {@link DatabaseConfiguration}
+	 * Initializes the Application Environment with the provided
+	 * {@link Configuration}
 	 *
 	 * @param configuration
-	 *            the actual database configuration to be used for
+	 *            the actual provided configuration to be used for
 	 *            initialization
 	 */
 	@SuppressWarnings("deprecation")
-	public void setUp(final DatabaseConfiguration configuration) {
+	public void setUp(final Configuration configuration) {
 		Preconditions.checkNotNull(configuration);
 
-		this.mongo = new Mongo(configuration.getServer(), configuration.getPort());
-		this.db = this.mongo.getDB(configuration.getDb());
+		// Local Database Initialization
+		{
+			this.mongo = new Mongo(configuration.getServer(), configuration.getPort());
+			this.db = this.mongo.getDB(configuration.getDb());
 
-		// Registering JDK8 Module for parsing JDK8 classes
-		final Builder tmpMapper = new JacksonMapper.Builder();
-		for (final Module module : ObjectMapper.findModules()) {
-			tmpMapper.registerModule(module);
+			// Registering JDK8 Module for parsing JDK8 classes
+			final Builder tmpMapper = new JacksonMapper.Builder();
+			for (final Module module : ObjectMapper.findModules()) {
+				tmpMapper.registerModule(module);
+			}
+			tmpMapper.enable(MapperFeature.AUTO_DETECT_GETTERS);
+			tmpMapper.registerModule(new JSR310Module()).registerModule(new Jdk8Module());
+
+			this.jongo = new Jongo(this.db, tmpMapper.build());
+			this.collection = this.jongo.getCollection(configuration.getCollection());
 		}
-		tmpMapper.enable(MapperFeature.AUTO_DETECT_GETTERS);
-		tmpMapper.registerModule(new JSR310Module()).registerModule(new Jdk8Module());
 
-		this.jongo = new Jongo(this.db, tmpMapper.build());
-		this.collection = this.jongo.getCollection(configuration.getCollection());
+		// initialize the Parse Component
+		Parse.initialize(configuration.getApplicationId(), configuration.getApplicationRestApiId());
 	}
 
 }

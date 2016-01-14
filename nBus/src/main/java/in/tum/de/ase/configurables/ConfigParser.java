@@ -36,23 +36,24 @@ public interface ConfigParser {
 	 *
 	 * @param file
 	 *            the provided configuration file
-	 * @return {@link DatabaseConfiguration} object wrapper
+	 * @return {@link Configuration} object wrapper
 	 * @throws NonParseableFileException
 	 *             if parser throws any exception, it is wrapped in
 	 *             {@link NonParseableFileException}
 	 */
-	public static DatabaseConfiguration parse(final File file) throws NonParseableFileException {
+	public static Configuration parse(final File file) throws NonParseableFileException {
 		final Properties prop = new Properties();
 		InputStream input = null;
-		DatabaseConfiguration configuration = null;
+		Configuration configuration = null;
 
 		try {
 
 			input = new FileInputStream(file);
 
 			prop.load(input);
-			configuration = new DatabaseConfiguration(prop.getProperty("server"),
-					Integer.valueOf(prop.getProperty("port")), prop.getProperty("db"), prop.getProperty("collection"));
+			configuration = new Configuration(prop.getProperty("server"), Integer.valueOf(prop.getProperty("port")),
+					prop.getProperty("db"), prop.getProperty("collection"), prop.getProperty("appId"),
+					prop.getProperty("appRestId"));
 
 		} catch (final Exception ex) {
 			throw new NonParseableFileException(ex.getMessage());

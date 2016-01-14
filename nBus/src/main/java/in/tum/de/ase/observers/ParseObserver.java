@@ -25,6 +25,7 @@ import in.tum.de.ase.observers.api.IObserver;
  */
 public final class ParseObserver implements IObserver {
 
+	/** {@inheritDoc}} */
 	@Override
 	public void publish(final String value) {
 		// TODO Auto-generated method stub

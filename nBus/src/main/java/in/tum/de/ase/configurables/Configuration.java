@@ -16,13 +16,23 @@
 package in.tum.de.ase.configurables;
 
 /**
- * Database Related Configuration POJO, needed to wrap provided configuration.
- * This class is thread safe and immutable
+ * Command line Related Configuration POJO, needed to wrap provided
+ * configuration. This class is thread safe and immutable.
  *
  * @author AMIT KUMAR MONDAL
  *
  */
-public final class DatabaseConfiguration {
+public final class Configuration {
+
+	/**
+	 * Parse Application Id
+	 */
+	private final String applicationId;
+
+	/**
+	 * Parse REST Application API Id
+	 */
+	private final String applicationRestApiId;
 
 	/**
 	 * The MongoDB Collection Name
@@ -47,12 +57,29 @@ public final class DatabaseConfiguration {
 	/**
 	 * Constructor
 	 */
-	public DatabaseConfiguration(final String server, final int port, final String db, final String collection) {
+	public Configuration(final String server, final int port, final String db, final String collection,
+			final String applicationId, final String applicationRestApiId) {
 		super();
 		this.server = server;
 		this.port = port;
 		this.db = db;
 		this.collection = collection;
+		this.applicationId = applicationId;
+		this.applicationRestApiId = applicationRestApiId;
+	}
+
+	/**
+	 * Getter for Parse Application ID
+	 */
+	public String getApplicationId() {
+		return this.applicationId;
+	}
+
+	/**
+	 * Getter for Parse Application REST API ID
+	 */
+	public String getApplicationRestApiId() {
+		return this.applicationRestApiId;
 	}
 
 	/**

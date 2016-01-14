@@ -23,5 +23,8 @@ package in.tum.de.ase.observers.api;
 @FunctionalInterface
 public interface IObserver {
 
+	/**
+	 * Publishes the value
+	 */
 	public void publish(String value);
 }

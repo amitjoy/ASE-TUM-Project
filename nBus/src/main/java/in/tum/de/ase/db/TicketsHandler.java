@@ -32,7 +32,7 @@ public interface TicketsHandler {
 	 *            provided ticket
 	 */
 	public static void insertTicket(final Eticket eticket) {
-		DBInitializer.getInstance().getCollection().save(eticket);
+		EnvironmentInitializer.getInstance().getCollection().save(eticket);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public interface TicketsHandler {
 	 *         false
 	 */
 	public static boolean isValidatedTicket(final String ticketId) {
-		final Eticket eticket = DBInitializer.getInstance().getCollection().findOne("{ticketId:'" + ticketId + "'}")
+		final Eticket eticket = EnvironmentInitializer.getInstance().getCollection().findOne("{ticketId:'" + ticketId + "'}")
 				.as(Eticket.class);
 		if (eticket != null) {
 			return ticketId.equals(eticket.getTicketId());
