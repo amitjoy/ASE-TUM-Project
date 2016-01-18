@@ -21,6 +21,7 @@ import org.parse4j.ParseObject;
 import com.google.common.base.Preconditions;
 
 import in.tum.de.ase.model.Eticket;
+import in.tum.de.ase.model.EticketType;
 import in.tum.de.ase.observers.api.IObserver;
 
 /**
@@ -42,7 +43,7 @@ public final class ParseCloudPublisher implements IObserver {
 		if (value instanceof Eticket) {
 			eticket = (Eticket) value;
 		}
-		if (eticket != null) {
+		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
 			try {
 				final ParseObject eticketObj = new ParseObject("Ticket");
 				eticketObj.put("id", eticket.getTicketId());

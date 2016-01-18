@@ -18,6 +18,7 @@ package in.tum.de.ase.db;
 import com.google.common.base.Preconditions;
 
 import in.tum.de.ase.model.Eticket;
+import in.tum.de.ase.model.EticketType;
 
 /**
  * Utility Class of handling tickets for Database related operations
@@ -28,7 +29,7 @@ import in.tum.de.ase.model.Eticket;
 public interface TicketsHandler {
 
 	/**
-	 * Inserts the provided ticket to the database
+	 * Inserts the provided single ticket to the database
 	 *
 	 * @param eticket
 	 *            provided ticket
@@ -37,7 +38,9 @@ public interface TicketsHandler {
 	 */
 	public static void insertTicket(final Eticket eticket) {
 		Preconditions.checkNotNull(eticket);
-		EnvironmentInitializer.getInstance().getCollection().save(eticket);
+		if (eticket.getType() == EticketType.SINGLE) {
+			EnvironmentInitializer.getInstance().getCollection().save(eticket);
+		}
 	}
 
 	/**
@@ -54,7 +57,7 @@ public interface TicketsHandler {
 		Preconditions.checkNotNull(ticketId);
 		final Eticket eticket = EnvironmentInitializer.getInstance().getCollection()
 				.findOne("{ticketId:'" + ticketId + "'}").as(Eticket.class);
-		if (eticket != null) {
+		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
 			return ticketId.equals(eticket.getTicketId());
 		}
 		return false;

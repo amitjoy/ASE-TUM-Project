@@ -21,6 +21,7 @@ import org.parse4j.ParseQuery;
 import com.google.common.base.Preconditions;
 
 import in.tum.de.ase.model.Eticket;
+import in.tum.de.ase.model.EticketType;
 import in.tum.de.ase.observers.api.IObserver;
 
 /**
@@ -45,7 +46,7 @@ public final class ParseCloudSubscriber implements IObserver {
 			eticket = (Eticket) value;
 		}
 
-		if (eticket != null) {
+		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
 			try {
 				final ParseQuery<ParseObject> query = ParseQuery.getQuery("Ticket").whereGreaterThanOrEqualTo("id",
 						eticket.getTicketId());

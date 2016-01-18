@@ -182,7 +182,7 @@ public final class TicketReaderGUI extends JFrame implements Runnable, ThreadFac
 						// if ticket is not previously validated
 						if (!isValidatedTicket(eticket.getTicketId())) {
 
-							// Inserts the ticket to local database
+							// Inserts the single ticket to local database
 							insertTicket(eticket);
 
 							// Notify all the registered observers
