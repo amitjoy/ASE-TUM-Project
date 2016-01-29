@@ -26,8 +26,7 @@ import in.tum.de.ase.db.EnvironmentInitializer;
 import in.tum.de.ase.exception.NonParseableFileException;
 import in.tum.de.ase.gui.TicketReaderGUI;
 import in.tum.de.ase.observer.controller.Controller;
-import in.tum.de.ase.observers.ParseCloudPublisher;
-import in.tum.de.ase.observers.ParseCloudSubscriber;
+import in.tum.de.ase.observers.HttpPostPublisher;
 
 /**
  * System Starter Point of Initialization
@@ -73,8 +72,9 @@ public final class Starter {
 	 * Registers the available listeners
 	 */
 	private void registerListeners() {
-		Controller.INSTANCE.addObserver(new ParseCloudPublisher());
-		Controller.INSTANCE.addObserver(new ParseCloudSubscriber());
+		// Controller.INSTANCE.addObserver(new ParseCloudPublisher());
+		// Controller.INSTANCE.addObserver(new ParseCloudSubscriber());
+		Controller.INSTANCE.addObserver(new HttpPostPublisher());
 	}
 
 }
