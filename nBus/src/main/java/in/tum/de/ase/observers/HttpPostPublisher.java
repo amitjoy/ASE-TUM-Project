@@ -15,6 +15,8 @@
  *******************************************************************************/
 package in.tum.de.ase.observers;
 
+import java.text.SimpleDateFormat;
+
 import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;
 
@@ -33,8 +35,9 @@ public final class HttpPostPublisher implements IObserver {
 			eticket = (Eticket) value;
 		}
 		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
+			final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
 			Unirest.post("http://ase-hwproject.appspot.com/rest").field("ticketId", eticket.getTicketId()).field("date",
-					eticket.getDate());
+					formatter.format(eticket.getDate()));
 		}
 	}
 
