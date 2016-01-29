@@ -36,8 +36,8 @@ public final class HttpPostPublisher implements IObserver {
 		}
 		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-			Unirest.post("http://ase-hwproject.appspot.com/rest").field("ticketId", eticket.getTicketId()).field("date",
-					formatter.format(eticket.getDate()));
+			Unirest.post("http://ase-hwproject.appspot.com/rest/validate").field("ticketId", eticket.getTicketId())
+					.field("date", formatter.format(eticket.getDate()));
 		}
 	}
 

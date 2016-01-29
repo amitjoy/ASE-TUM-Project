@@ -18,6 +18,11 @@ version="2.5">
 		<servlet-name>add</servlet-name>
 		<url-pattern>/add</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ValidateTicket</servlet-name>
+		<url-pattern>/validate</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>ScoreServlet</servlet-name>
