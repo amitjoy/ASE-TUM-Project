@@ -24,7 +24,7 @@ public final class ValidateTicket extends HttpServlet {
 			throws ServletException, IOException {
 		final String ticketId = req.getParameter("ticketId");
 		final String date = req.getParameter("date");
-		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Ticket ticket = null;
 		try {
 			ticket = new Ticket(formatter.parse(date), ticketId);

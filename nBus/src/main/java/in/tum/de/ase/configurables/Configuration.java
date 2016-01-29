@@ -35,6 +35,11 @@ public final class Configuration {
 	private final String applicationRestApiId;
 
 	/**
+	 * Parse Application Id
+	 */
+	private final String applicationServer;
+
+	/**
 	 * The MongoDB Collection Name
 	 */
 	private final String collection;
@@ -58,7 +63,7 @@ public final class Configuration {
 	 * Constructor
 	 */
 	public Configuration(final String server, final int port, final String db, final String collection,
-			final String applicationId, final String applicationRestApiId) {
+			final String applicationId, final String applicationRestApiId, final String applicationServer) {
 		super();
 		this.server = server;
 		this.port = port;
@@ -66,6 +71,7 @@ public final class Configuration {
 		this.collection = collection;
 		this.applicationId = applicationId;
 		this.applicationRestApiId = applicationRestApiId;
+		this.applicationServer = applicationServer;
 	}
 
 	/**
@@ -80,6 +86,13 @@ public final class Configuration {
 	 */
 	public String getApplicationRestApiId() {
 		return this.applicationRestApiId;
+	}
+
+	/**
+	 * @return the applicationServer
+	 */
+	public String getApplicationServer() {
+		return this.applicationServer;
 	}
 
 	/**

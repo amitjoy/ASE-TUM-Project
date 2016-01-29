@@ -53,7 +53,7 @@ public interface ConfigParser {
 			prop.load(input);
 			configuration = new Configuration(prop.getProperty("server"), Integer.valueOf(prop.getProperty("port")),
 					prop.getProperty("db"), prop.getProperty("collection"), prop.getProperty("appId"),
-					prop.getProperty("appRestId"));
+					prop.getProperty("appRestId"), prop.getProperty("applicationServer"));
 
 		} catch (final Exception ex) {
 			throw new NonParseableFileException(ex.getMessage());
