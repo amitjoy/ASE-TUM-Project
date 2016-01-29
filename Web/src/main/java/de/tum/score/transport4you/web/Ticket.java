@@ -3,19 +3,23 @@ package de.tum.score.transport4you.web;
 import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public final class Ticket {
 
 	private Date date;
+	@Id
+	private long Id;
 	private String ticketId;
 
 	public Ticket() {
 	}
 
-	public Ticket(final Date date, final String ticketId) {
+	public Ticket(final Date date, final long id, final String ticketId) {
 		super();
 		this.date = date;
+		this.Id = id;
 		this.ticketId = ticketId;
 	}
 
@@ -24,6 +28,13 @@ public final class Ticket {
 	 */
 	public Date getDate() {
 		return this.date;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return this.Id;
 	}
 
 	/**
@@ -39,6 +50,14 @@ public final class Ticket {
 	 */
 	public void setDate(final Date date) {
 		this.date = date;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(final long id) {
+		this.Id = id;
 	}
 
 	/**
