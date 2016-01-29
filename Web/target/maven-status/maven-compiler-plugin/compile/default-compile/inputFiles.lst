@@ -1,13 +1,16 @@
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/Group.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/AddUser.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/UserResource.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/OfyHelper.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/ScoreRestlets.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/IAbstractPersistenceObject.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEntry.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/UsersResource.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEnvelope.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/ETicketType.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/AbstractPersistenceObject.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/web/User.java
-/Users/AMIT/Google Drive/TU Munich/3rd Semester/Advanced Topics in SE/T4Y_Codebase/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/ETicket.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/ValidateTicket.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/AddUser.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/Group.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/AbstractPersistenceObject.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEnvelope.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/Ticket.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/User.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/ScoreRestlets.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEntry.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/IAbstractPersistenceObject.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/ETicketType.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/ETicket.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/OfyHelper.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/UserResource.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/UsersResource.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/TicketResource.java

@@ -8,6 +8,11 @@ version="2.5">
 		<servlet-name>add</servlet-name>
 		<servlet-class>de.tum.score.transport4you.web.AddUser</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ValidateTicket</servlet-name>
+		<servlet-class>de.tum.score.transport4you.web.ValidateTicket</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>add</servlet-name>
@@ -20,6 +25,15 @@ version="2.5">
 		<init-param>
 			<param-name>org.restlet.application</param-name>
 			<param-value>de.tum.score.transport4you.web.ScoreRestlets  </param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>TicketServlet</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<param-name>org.restlet.application</param-name>
+			<param-value>de.tum.score.transport4you.web.TicketRestlet</param-value>
 		</init-param>
 	</servlet>
 
