@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 
 import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import in.tum.de.ase.model.Eticket;
 import in.tum.de.ase.model.EticketType;
@@ -36,8 +37,17 @@ public final class HttpPostPublisher implements IObserver {
 		}
 		if ((eticket != null) && (eticket.getType() == EticketType.SINGLE)) {
 			final SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-			Unirest.post("http://ase-hwproject.appspot.com/rest/validate").field("ticketId", eticket.getTicketId())
-					.field("date", formatter.format(eticket.getDate()));
+
+			System.out.println("Syncing Data with Cloud.....");
+
+			try {
+				Unirest.get("http://ase-hwproject.appspot.com/validate").queryString("ticketId", eticket.getTicketId())
+						.queryString("date", formatter.format(eticket.getDate())).asString();
+			} catch (final UnirestException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("Syncing Data with Cloud.....Done");
 		}
 	}
 

@@ -116,7 +116,8 @@ public final class Eticket {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("Ticket ID", this.ticketId)
-				.add("Type", String.valueOf(this.type.ordinal())).add("Date", this.date.toString()).toString();
+				.add("Type", (this.type == EticketType.SEASON ? "SEASON" : "SINGLE")).add("Date", this.date.toString())
+				.toString();
 	}
 
 }

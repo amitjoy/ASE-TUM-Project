@@ -38,6 +38,7 @@ public interface TicketsHandler {
 	 */
 	public static void insertTicket(final Eticket eticket) {
 		Preconditions.checkNotNull(eticket);
+
 		if (eticket.getType() == EticketType.SINGLE) {
 			EnvironmentInitializer.getInstance().getCollection().save(eticket);
 		}

@@ -20,7 +20,7 @@ public final class ValidateTicket extends HttpServlet {
 
 	/** {@inheritDoc}} */
 	@Override
-	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp)
+	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
 			throws ServletException, IOException {
 		final String ticketId = req.getParameter("ticketId");
 		final String date = req.getParameter("date");

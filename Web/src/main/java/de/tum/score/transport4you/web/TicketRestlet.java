@@ -10,7 +10,8 @@ public final class TicketRestlet extends Application {
 	public Restlet createInboundRoot() {
 		final Router router = new Router(this.getContext());
 
-		router.attach("/ticket/{ticketId}", TicketResource.class);
+		router.attach("/status/{ticketId}", TicketResource.class);
+		router.attach("/all", TicketsResource.class);
 
 		return router;
 	}

@@ -2,3 +2,4 @@ de/tum/score/transport4you/web/Ticket.class
 de/tum/score/transport4you/web/ValidateTicket.class
 de/tum/score/transport4you/web/TicketRestlet.class
 de/tum/score/transport4you/web/TicketResource.class
+de/tum/score/transport4you/web/TicketsResource.class

@@ -7,20 +7,27 @@ import org.restlet.resource.ServerResource;
 
 import com.googlecode.objectify.ObjectifyService;
 
-public final class TicketResource extends ServerResource {
+public final class TicketsResource extends ServerResource {
 
 	@Get
 	public String represent() throws Exception {
 		final List<Ticket> tickets = ObjectifyService.ofy().load().type(Ticket.class).list();
 
-		for (final Ticket ticket : tickets) {
-			if (ticket.getTicketId().equals(this.getAttribute("ticketId"))) {
-				return "<ticket> TICKET FOUND </ticket>";
-			}
-
+		if (tickets.isEmpty()) {
+			return "<ticket>NO_TICKETS_FOUND</ticket>";
 		}
 
-		return "<ticket> TICKET NOT FOUND</ticket>";
+		String result = "";
+
+		result += "<tickets>";
+
+		for (final Ticket ticket : tickets) {
+			result += "<ticket>" + ticket.getTicketId() + "</ticket>";
+		}
+
+		result += "</tickets>";
+
+		return result;
 	}
 
 }

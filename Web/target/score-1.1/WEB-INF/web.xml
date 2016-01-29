@@ -29,7 +29,7 @@ version="2.5">
 		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
 		<init-param>
 			<param-name>org.restlet.application</param-name>
-			<param-value>de.tum.score.transport4you.web.ScoreRestlets  </param-value>
+			<param-value>de.tum.score.transport4you.web.ScoreRestlets</param-value>
 		</init-param>
 	</servlet>
 	
@@ -49,7 +49,7 @@ version="2.5">
 	
 	<servlet-mapping>
 		<servlet-name>TicketServlet</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
+		<url-pattern>/rest/ticket/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

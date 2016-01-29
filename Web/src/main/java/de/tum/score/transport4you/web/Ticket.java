@@ -8,18 +8,20 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public final class Ticket {
 
+	private static long s_id = 1L;
 	private Date date;
 	@Id
 	private long Id;
+
 	private String ticketId;
 
 	public Ticket() {
 	}
 
-	public Ticket(final Date date, final long id, final String ticketId) {
+	public Ticket(final Date date, final String ticketId) {
 		super();
 		this.date = date;
-		this.Id = id;
+		this.Id = s_id++;
 		this.ticketId = ticketId;
 	}
 
