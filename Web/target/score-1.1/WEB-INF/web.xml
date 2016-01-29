@@ -18,6 +18,11 @@ version="2.5">
 		<servlet-name>add</servlet-name>
 		<url-pattern>/add</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ValidateTicket</servlet-name>
+		<url-pattern>/validate</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>ScoreServlet</servlet-name>
@@ -39,6 +44,11 @@ version="2.5">
 
 	<servlet-mapping>
 		<servlet-name>ScoreServlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>TicketServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 

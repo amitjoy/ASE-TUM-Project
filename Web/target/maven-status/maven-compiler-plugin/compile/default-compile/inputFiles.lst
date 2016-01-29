@@ -4,6 +4,7 @@
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/AbstractPersistenceObject.java
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEnvelope.java
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/Ticket.java
+/Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/TicketRestlet.java
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/User.java
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/web/ScoreRestlets.java
 /Users/AMIT/git/ASE-TUM-Project/Web/src/main/java/de/tum/score/transport4you/shared/mobilebusweb/data/impl/BlobEntry.java
