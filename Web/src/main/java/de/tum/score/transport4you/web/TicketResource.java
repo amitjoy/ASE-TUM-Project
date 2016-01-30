@@ -17,10 +17,9 @@ public final class TicketResource extends ServerResource {
 			if (ticket.getTicketId().equals(this.getAttribute("ticketId"))) {
 				return "<ticket> TICKET FOUND </ticket>";
 			}
-
 		}
 
-		return "<ticket> TICKET NOT FOUND</ticket>";
+		return "<ticket> TICKET NOT FOUND </ticket>";
 	}
 
 }

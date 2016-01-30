@@ -11,6 +11,7 @@ public final class TicketRestlet extends Application {
 		final Router router = new Router(this.getContext());
 
 		router.attach("/status/{ticketId}", TicketResource.class);
+		router.attach("/deactivate", TicketDeleteResource.class);
 		router.attach("/all", TicketsResource.class);
 
 		return router;
